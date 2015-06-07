@@ -6,6 +6,8 @@
 
 __`react-native-activity-view`__ is a React Native library for displaying iOS share and action sheets.
 
+![react-native-activity-view](https://cloud.githubusercontent.com/assets/1627824/8025905/795fc15c-0d33-11e5-8746-622417deccc3.gif)
+
 ## Documentation
 - [Install](https://github.com/naoufal/react-native-activity-view#install)
 - [Usage](https://github.com/naoufal/react-native-activity-view#usage)
