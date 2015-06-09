@@ -40,7 +40,7 @@ ActivityView.show({
   image: "name of the image in the app bundle"
 });
 ```
-Note: Only one out of image and imageUrl should be given. If both are given `image` will be used.
+_Note: Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
 
 ## Example
 Using Activity View in your app will usually look like this:
