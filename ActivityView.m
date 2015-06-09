@@ -11,12 +11,13 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSString *text = args[@"text"];
     NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
-    NSData * image;
+    NSString *image = args[@"image"];
+    NSData * imageData;
     
     // Try to fetch image
     if (imageUrl) {
         @try {
-            image = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageUrl]];
+            imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageUrl]];
         } @catch (NSException *exception) {
             RCTLogWarn(@"Could not fetch image.");
         }
@@ -24,8 +25,8 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     
     
     // Return if no args were passed
-    if (!text && !url && !image) {
-        RCTLogError(@"[ActivityView] You must specify a text, url and/or image.");
+    if (!text && !url && !image && !imageData) {
+        RCTLogError(@"[ActivityView] You must specify a text, url, image and/or imageUrl.");
         return;
     }
     
@@ -38,7 +39,9 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
     
     if (image) {
-        [shareObject addObject: [UIImage imageWithData: image]];
+        [shareObject addObject: [UIImage imageNamed: image]];
+    } else if (imageData) {
+        [shareObject addObject: [UIImage imageWithData: imageData]];
     }
     
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
