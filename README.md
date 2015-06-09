@@ -37,7 +37,7 @@ ActivityView.show({
   text: "Text you want to share",
   url: "URL you want to share",
   imageUrl: "Url of the image you want to share/action",
-  image: "name of the image in the app bundle"
+  image: "Name of the image in the app bundle"
 });
 ```
 _Note: Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
