@@ -36,9 +36,11 @@ Showing the ActivityView is as simple as calling:
 ActivityView.show({
   text: "Text you want to share",
   url: "URL you want to share",
-  imageUrl: "Url of the image you want to share/action"
+  imageUrl: "Url of the image you want to share/action",
+  image: "Name of the image in the app bundle"
 });
 ```
+_Note: Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
 
 ## Example
 Using Activity View in your app will usually look like this:
@@ -76,7 +78,7 @@ var YourComponent = React.createClass({
 Displays the Activity View with actions relevant to the `shareObject` passed.
 
 __Arguments__
-- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `imageUrl`.
+- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `imageUrl` or `image`.
 
 __Examples__
 ```js
