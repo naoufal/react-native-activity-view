@@ -1,6 +1,6 @@
 {
   "name": "react-native-activity-view",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "iOS share and action sheets for React Native",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
@@ -9,7 +9,6 @@
     "react-native": "^0.4.4"
   },
   "main": "ActivityView.ios.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/naoufal/react-native-activity-view.git"
