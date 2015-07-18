@@ -1,6 +1,6 @@
 {
   "name": "react-native-activity-view",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "iOS share and action sheets for React Native",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
