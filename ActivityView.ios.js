@@ -4,8 +4,12 @@
  */
 'use strict';
 
-var NativeActivityView = require('NativeModules').ActivityView;
-var invariant = require('invariant');
+var React = require('react-native');
+var {
+  NativeModules,
+} = React;
+
+var NativeActivityView = NativeModules.ActivityView;
 
 /**
  * High-level docs for the ActivityView iOS API can be written here.
