@@ -3,10 +3,9 @@
   "version": "0.2.4",
   "description": "iOS share and action sheets for React Native",
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
-  },
-  "peerDependencies": {
-    "react-native": ">=0.4.0"
+    "lint": "node_modules/.bin/eslint .",
+    "start": "node_modules/react-native/packager/packager.sh",
+    "test": "npm run lint"
   },
   "main": "ActivityView.ios.js",
   "repository": {
@@ -36,9 +35,11 @@
     "url": "https://github.com/naoufal/react-native-activity-view/issues"
   },
   "homepage": "https://github.com/naoufal/react-native-activity-view",
-  "jshintConfig": {
-    "esnext": true,
-    "node": true
+  "peerDependencies": {
+    "react-native": ">=0.4.0"
+  },
+  "devDependencies": {
+    "eslint": "0.24.1",
+    "eslint-plugin-react": "2.7.1"
   }
 }
-

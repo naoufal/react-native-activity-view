@@ -9,8 +9,8 @@
 var warning = require('warning');
 
 var ActivityView = {
-  test: function() {
-    warning("Not yet implemented for Android.");
+  test: function test() {
+    warning('Not yet implemented for Android.');
   }
 };
 
