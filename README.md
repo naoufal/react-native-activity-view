@@ -13,7 +13,7 @@ __`react-native-activity-view`__ is a React Native library for displaying iOS sh
 - [Usage](https://github.com/naoufal/react-native-activity-view#usage)
 - [Example](https://github.com/naoufal/react-native-activity-view#example)
 - [Methods](https://github.com/naoufal/react-native-activity-view#methods)
-- [License](https://github.com/naoufal/react-native-touch-id#license)
+- [License](https://github.com/naoufal/react-native-activity-view#license)
 
 ## Install
 ```shell
