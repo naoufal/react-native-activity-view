@@ -48,6 +48,9 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     
     // Display the Activity View
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    if ([activityView respondsToSelector:@selector(popoverPresentationController)]) {
+        activityView.popoverPresentationController.sourceView = ctrl.view;
+    }
     [ctrl presentViewController:activityView animated:YES completion:nil];
 }
 
