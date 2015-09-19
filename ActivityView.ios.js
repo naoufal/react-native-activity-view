@@ -19,7 +19,17 @@ var invariant = require('invariant');
  */
 
 var ActivityView = {
-  show: NativeActivityView.show
+  show: (args) => {
+    if (args.popoverSource) {
+      args.popoverSource.measure((x, y, width, height, pageX, pageY) => {
+        delete args.popoverSource;
+        args.sourceFrame = {x: pageX, y: pageY, width, height};
+        NativeActivityView.show(args);
+      });
+    } else {
+      NativeActivityView.show(args);
+    }
+  }
 };
 
 module.exports = ActivityView;

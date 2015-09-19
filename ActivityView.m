@@ -17,6 +17,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
     NSString *image = args[@"image"];
+    NSDictionary *sourceFrame = args[@"sourceFrame"];
     NSData * imageData;
     
     // Try to fetch image
@@ -53,6 +54,15 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     
     // Display the Activity View
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    if ([activityView respondsToSelector:@selector(popoverPresentationController)]) {
+        activityView.popoverPresentationController.sourceView = ctrl.view;
+        if (sourceFrame != nil) {
+            activityView.popoverPresentationController.sourceRect = CGRectMake([sourceFrame[@"x"] floatValue],
+                                                                               [sourceFrame[@"y"] floatValue],
+                                                                               [sourceFrame[@"width"] floatValue],
+                                                                               [sourceFrame[@"height"] floatValue]);
+        }
+    }
     [ctrl presentViewController:activityView animated:YES completion:nil];
 }
 
