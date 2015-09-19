@@ -41,8 +41,8 @@ ActivityView.show({
   anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
 });
 ```
-_Note: 
-- Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
+#### Note: 
+- Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used.
 - anchor is optional and only applicable for ipad. popup will be centered by default if anchor is not provided.
 
 ## Example
