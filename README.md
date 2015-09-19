@@ -38,10 +38,12 @@ ActivityView.show({
   url: "URL you want to share",
   imageUrl: "Url of the image you want to share/action",
   image: "Name of the image in the app bundle",
-  anchor: React.findNodeHandle(this.refs.share), // where to show popup on ipad?
+  anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
 });
 ```
-_Note: Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
+_Note: 
+- Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
+- anchor is optional and only applicable for ipad. popup will be centered by default if anchor is not provided.
 
 ## Example
 Using Activity View in your app will usually look like this:
