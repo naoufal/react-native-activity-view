@@ -1,10 +1,10 @@
-# react-native-activity-view
+# React Native Activity View
 
 [![npm version](https://img.shields.io/npm/v/react-native-activity-view.svg?style=flat-square)](https://www.npmjs.com/package/react-native-activity-view)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-activity-view.svg?style=flat-square)](https://www.npmjs.com/package/react-native-activity-view)
 [![Code Climate](https://img.shields.io/codeclimate/github/naoufal/react-native-activity-view.svg?style=flat-square)](https://codeclimate.com/github/naoufal/react-native-activity-view)
 
-__`react-native-activity-view`__ is a React Native library for displaying iOS share and action sheets.
+React Native Activity View is a [React Native](https://facebook.github.io/react-native) library for displaying iOS share and action sheets.
 
 ![react-native-activity-view](https://cloud.githubusercontent.com/assets/1627824/8025905/795fc15c-0d33-11e5-8746-622417deccc3.gif)
 
@@ -22,7 +22,7 @@ npm i --save react-native-activity-view
 
 ## Usage
 ### Linking the Library
-In order to use Activity View, you must first link the library to your project.  There's excellent documentation on how to do this in the [React Native Docs](https://facebook.github.io/react-native/docs/linking-libraries.html#content).
+In order to use Activity View, you must first link the library to your project.  There's excellent documentation on how to do this in the [React Native Docs](http://facebook.github.io/react-native/docs/linking-libraries-ios.html#content).
 
 ### Show the Activity View
 Once you've linked the library, you'll want to make it available to your app by requiring it:
@@ -43,7 +43,7 @@ ActivityView.show({
 ```
 #### Note: 
 - Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used.
-- anchor is optional and only applicable for ipad. popup will be centered by default if anchor is not provided.
+- `anchor` is optional and only applicable for iPad. Popup will be centered by default if `anchor` is not provided.
 
 ## Example
 Using Activity View in your app will usually look like this:
@@ -95,7 +95,7 @@ ActivityView.show({
 ```
 
 ## License
-Copyright (c) 2015, Naoufal Kadhom
+Copyright (c) 2015, [Naoufal Kadhom](http://naoufal.com/)
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
