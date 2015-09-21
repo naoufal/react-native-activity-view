@@ -37,10 +37,13 @@ ActivityView.show({
   text: "Text you want to share",
   url: "URL you want to share",
   imageUrl: "Url of the image you want to share/action",
-  image: "Name of the image in the app bundle"
+  image: "Name of the image in the app bundle",
+  anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
 });
 ```
-_Note: Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used._
+#### Note: 
+- Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used.
+- anchor is optional and only applicable for ipad. popup will be centered by default if anchor is not provided.
 
 ## Example
 Using Activity View in your app will usually look like this:
@@ -52,7 +55,8 @@ var YourComponent = React.createClass({
     ActivityView.show({
       text: 'ActivityView for React Native',
       url: 'https://github.com/naoufal/react-native-activity-view',
-      imageUrl: 'https://facebook.github.io/react/img/logo_og.png'
+      imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
+      anchor: React.findNodeHandle(this.refs.share),
     });
   },
 
@@ -63,7 +67,7 @@ var YourComponent = React.createClass({
         <TouchableHighlight
           onPress={this._pressHandler}
         />
-          <Text>
+          <Text ref="share">
             Share with Activity View
           </Text>
         </TouchableHighlight>
@@ -78,14 +82,15 @@ var YourComponent = React.createClass({
 Displays the Activity View with actions relevant to the `shareObject` passed.
 
 __Arguments__
-- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `imageUrl` or `image`.
+- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `imageUrl` or `image`.
 
 __Examples__
 ```js
 ActivityView.show({
   text: 'ActivityView for React Native',
   url: 'https://github.com/naoufal/react-native-activity-view',
-  imageUrl: 'https://facebook.github.io/react/img/logo_og.png'
+  imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
+  anchor: React.findNodeHandle(this.refs.share),
 });
 ```
 
