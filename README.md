@@ -38,12 +38,14 @@ ActivityView.show({
   url: "URL you want to share",
   imageUrl: "Url of the image you want to share/action",
   image: "Name of the image in the app bundle",
+  exclude: ['postToFlickr'],
   anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
 });
 ```
 #### Note: 
 - Only provide one image type to the options argument.  If multiple image types are provided, `image` will be used.
 - `anchor` is optional and only applicable for iPad. Popup will be centered by default if `anchor` is not provided.
+- `exclude` is an array with activities you want to exclude from activity view. See [Apple's Documentation](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIActivity_Class/index.html#//apple_ref/doc/constant_group/Built_in_Activity_Types) on Built-in Activity Types for a full list of available values. **Note:** pass only camelcased activity name, e.g. in order to exclude `UIActivityTypePostToFlickr`, pass `postToFlickr` etc.
 
 ## Example
 Using Activity View in your app will usually look like this:
@@ -82,7 +84,7 @@ var YourComponent = React.createClass({
 Displays the Activity View with actions relevant to the `shareObject` passed.
 
 __Arguments__
-- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `imageUrl` or `image`.
+- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `exclude`, `imageUrl` or `image`.
 
 __Examples__
 ```js
@@ -90,6 +92,7 @@ ActivityView.show({
   text: 'ActivityView for React Native',
   url: 'https://github.com/naoufal/react-native-activity-view',
   imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
+  exclude: ['postToFlickr', 'airDrop'],
   anchor: React.findNodeHandle(this.refs.share),
 });
 ```

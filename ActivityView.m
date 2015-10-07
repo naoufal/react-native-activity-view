@@ -14,12 +14,46 @@
 
 RCT_EXPORT_MODULE()
 
+// Map user passed array of strings to UIActivities
+- (NSArray*)excludedActivitiesForKeys:(NSArray*)passedKeys {
+    NSDictionary *activities = @{
+       @"postToFacebook": UIActivityTypePostToFacebook,
+       @"postToTwitter": UIActivityTypePostToTwitter,
+       @"postToWeibo": UIActivityTypePostToWeibo,
+       @"message": UIActivityTypeMessage,
+       @"mail": UIActivityTypeMail,
+       @"print": UIActivityTypePrint,
+       @"copyToPasteboard": UIActivityTypeCopyToPasteboard,
+       @"assignToContact": UIActivityTypeAssignToContact,
+       @"saveToCameraRoll": UIActivityTypeSaveToCameraRoll,
+       @"addToReadingList": UIActivityTypeAddToReadingList,
+       @"postToFlickr": UIActivityTypePostToFlickr,
+       @"postToVimeo": UIActivityTypePostToVimeo,
+       @"postToTencentWeibo": UIActivityTypePostToTencentWeibo,
+       @"airDrop": UIActivityTypeAirDrop
+    };
+    
+    NSMutableArray *excludedActivities = [NSMutableArray new];
+    
+    [passedKeys enumerateObjectsUsingBlock:^(NSString *activityName, NSUInteger idx, BOOL *stop) {
+        NSString *activity = [activities objectForKey:activityName];
+        if (!activity) {
+            RCTLogWarn(@"[ActivityView] Unknown activity to exclude: %@. Expected one of: %@", activityName, [activities allKeys]);
+            return;
+        }
+        [excludedActivities addObject:activity];
+    }];
+    
+    return excludedActivities;
+}
+
 RCT_EXPORT_METHOD(show:(NSDictionary *)args)
 {
     NSMutableArray *shareObject = [NSMutableArray array];
     NSString *text = args[@"text"];
     NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
+    NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
     NSData * imageData;
     
@@ -28,7 +62,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         @try {
             imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageUrl]];
         } @catch (NSException *exception) {
-            RCTLogWarn(@"Could not fetch image.");
+            RCTLogWarn(@"[ActivityView] Could not fetch image.");
         }
     }
     
@@ -38,6 +72,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         RCTLogError(@"[ActivityView] You must specify a text, url, image and/or imageUrl.");
         return;
     }
+
     
     if (text) {
         [shareObject addObject:text];
@@ -54,6 +89,10 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
     
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
+    
+    activityView.excludedActivityTypes = activitiesToExclude
+        ? [self excludedActivitiesForKeys:activitiesToExclude]
+        : nil;
     
     // Display the Activity View
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
@@ -76,7 +115,6 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-
     [ctrl presentViewController:activityView animated:YES completion:nil];
 }
 
