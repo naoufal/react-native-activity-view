@@ -115,7 +115,11 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-    [ctrl presentViewController:activityView animated:YES completion:nil];
+
+    // Schedule UI change to run in main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [ctrl presentViewController:activityView animated:YES completion:nil];
+    });
 }
 
 @end
