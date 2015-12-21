@@ -67,18 +67,16 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         }
     }
     
-    
-    // Return if no args were passed
-    if (!text && !url && !image && !imageData && !imageBase64) {
-        RCTLogError(@"[ActivityView] You must specify a text, url, image, base64Image and/or imageUrl.");
-        return;
-    }
-    
     if (imageBase64) {
         imageData = [[NSData alloc] initWithBase64EncodedString:imageBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
     }
-
     
+    // Return if no args were passed
+    if (!text && !url && !image && !imageData) {
+        RCTLogError(@"[ActivityView] You must specify a text, url, image, base64Image and/or imageUrl.");
+        return;
+    }
+
     if (text) {
         [shareObject addObject:text];
     }
