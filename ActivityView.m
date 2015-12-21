@@ -70,7 +70,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     
     // Return if no args were passed
     if (!text && !url && !image && !imageData && !imageBase64) {
-        RCTLogError(@"[ActivityView] You must specify a text, url, image and/or imageUrl.");
+        RCTLogError(@"[ActivityView] You must specify a text, url, image, base64Image and/or imageUrl.");
         return;
     }
     
