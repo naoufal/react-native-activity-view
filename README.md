@@ -97,6 +97,30 @@ ActivityView.show({
 });
 ```
 
+### showWithCallback(shareObject, callback)
+Same as the above, but with an optional callback called after the ActivityView is either completed or cancelled
+
+__Arguments__
+- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `exclude`, `imageUrl` or `image`.
+- `callback` - A function with 4 arguments: `activityType`, `completed`, `returnedItems`, and `activityError`
+
+__Examples__
+```js
+ActivityView.show({
+  text: 'ActivityView for React Native',
+  url: 'https://github.com/naoufal/react-native-activity-view',
+  imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
+  exclude: ['postToFlickr', 'airDrop'],
+  anchor: React.findNodeHandle(this.refs.share),
+}, function(activityType, completed, returnedItems, activityError) {
+  if (completed) {
+    console.log('success!')
+  else {
+    console.log('cancelled')
+  }
+});
+```
+
 ## License
 Copyright (c) 2015, [Naoufal Kadhom](http://naoufal.com/)
 

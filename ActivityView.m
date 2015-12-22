@@ -2,6 +2,7 @@
 #import "RCTLog.h"
 #import "RCTBridge.h"
 #import "RCTUIManager.h"
+#import "RCTUtils.h"
 
 @implementation ActivityView
 
@@ -16,6 +17,10 @@ RCT_EXPORT_MODULE()
 
 // Map user passed array of strings to UIActivities
 - (NSArray*)excludedActivitiesForKeys:(NSArray*)passedKeys {
+    if (!passedKeys) {
+        return nil;
+    }
+
     NSDictionary *activities = @{
        @"postToFacebook": UIActivityTypePostToFacebook,
        @"postToTwitter": UIActivityTypePostToTwitter,
@@ -47,13 +52,11 @@ RCT_EXPORT_MODULE()
     return excludedActivities;
 }
 
-RCT_EXPORT_METHOD(show:(NSDictionary *)args)
-{
+- (UIActivityViewController *)activityViewFromDictionary:(NSDictionary *)args {
     NSMutableArray *shareObject = [NSMutableArray array];
     NSString *text = args[@"text"];
     NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
-    NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
     NSData * imageData;
     
@@ -66,13 +69,11 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         }
     }
     
-    
     // Return if no args were passed
     if (!text && !url && !image && !imageData) {
         RCTLogError(@"[ActivityView] You must specify a text, url, image and/or imageUrl.");
-        return;
+        return nil;
     }
-
     
     if (text) {
         [shareObject addObject:text];
@@ -89,14 +90,16 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
     
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
+
+    activityView.excludedActivityTypes = [self excludedActivitiesForKeys:args[@"exclude"]];
     
-    activityView.excludedActivityTypes = activitiesToExclude
-        ? [self excludedActivitiesForKeys:activitiesToExclude]
-        : nil;
-    
+    return activityView;
+}
+
+- (void) displayActivityViewController:(UIActivityViewController *)activityView withAnchor:(NSNumber *)anchorViewTag {
     // Display the Activity View
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-
+    
     /*
      * The `anchor` option takes a view to set as the anchor for the share
      * popup to point to, on iPads running iOS 8. If it is not passed, it
@@ -105,7 +108,6 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
      */
     if ([activityView respondsToSelector:@selector(popoverPresentationController)]) {
         activityView.popoverPresentationController.sourceView = ctrl.view;
-        NSNumber *anchorViewTag = [RCTConvert NSNumber:args[@"anchor"]];
         if (anchorViewTag) {
             UIView *anchorView = [self.bridge.uiManager viewForReactTag:anchorViewTag];
             activityView.popoverPresentationController.sourceRect = [anchorView convertRect:anchorView.bounds toView:ctrl.view];
@@ -116,6 +118,36 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         }
     }
     [ctrl presentViewController:activityView animated:YES completion:nil];
+}
+
+RCT_EXPORT_METHOD(show:(NSDictionary *)args)
+{
+    UIActivityViewController* activityView = [self activityViewFromDictionary:args];
+    
+    if (activityView) {
+        [self displayActivityViewController:activityView withAnchor:[RCTConvert NSNumber:args[@"anchor"]]];
+    } else {
+        return;
+    }
+}
+
+RCT_EXPORT_METHOD(showWithCallback:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
+{
+    UIActivityViewController* activityView = [self activityViewFromDictionary:args];
+    
+    if (activityView) {
+        [activityView setCompletionWithItemsHandler:
+            ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+                callback(@[RCTNullIfNil(activityType),
+                           @(completed),
+                           RCTNullIfNil(returnedItems),
+                           RCTNullIfNil(activityError.localizedDescription)]);
+            }
+        ];
+        [self displayActivityViewController:activityView withAnchor:[RCTConvert NSNumber:args[@"anchor"]]];
+    } else {
+        return;
+    }
 }
 
 @end
