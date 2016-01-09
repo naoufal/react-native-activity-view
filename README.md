@@ -37,6 +37,7 @@ ActivityView.show({
   text: "Text you want to share",
   url: "URL you want to share",
   imageUrl: "Url of the image you want to share/action",
+  imageBase64: "Raw base64 encoded image data"
   image: "Name of the image in the app bundle",
   exclude: ['postToFlickr'],
   anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
@@ -84,7 +85,7 @@ var YourComponent = React.createClass({
 Displays the Activity View with actions relevant to the `shareObject` passed.
 
 __Arguments__
-- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `exclude`, `imageUrl` or `image`.
+- `shareObject` - An _Object_ containing one or more of the following keys `text`, `url`, `anchor`, `exclude`, `imageUrl`, `imageBase64`, or `image`.
 
 __Examples__
 ```js
@@ -93,6 +94,15 @@ ActivityView.show({
   url: 'https://github.com/naoufal/react-native-activity-view',
   imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
   exclude: ['postToFlickr', 'airDrop'],
+  anchor: React.findNodeHandle(this.refs.share),
+});
+```
+
+```js
+ActivityView.show({
+  text: 'ActivityView for React Native',
+  imageBase64: 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2...', 
+  exclude: ['airDrop'],
   anchor: React.findNodeHandle(this.refs.share),
 });
 ```

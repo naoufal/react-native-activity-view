@@ -55,7 +55,8 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSString *imageUrl = args[@"imageUrl"];
     NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
-    NSData * imageData;
+    NSString *imageBase64 = args[@"imageBase64"];
+    NSData *imageData;
     
     // Try to fetch image
     if (imageUrl) {
@@ -66,14 +67,20 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         }
     }
     
+    if (imageBase64) {
+        @try {
+            imageData = [[NSData alloc] initWithBase64EncodedString:imageBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        } @catch (NSException *exception) {
+            RCTLogWarn(@"[ActivityView] Could not decode image");
+        }
+    }
     
     // Return if no args were passed
     if (!text && !url && !image && !imageData) {
-        RCTLogError(@"[ActivityView] You must specify a text, url, image and/or imageUrl.");
+        RCTLogError(@"[ActivityView] You must specify a text, url, image, imageBase64 and/or imageUrl.");
         return;
     }
 
-    
     if (text) {
         [shareObject addObject:text];
     }
