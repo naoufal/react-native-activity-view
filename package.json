@@ -1,6 +1,6 @@
 {
   "name": "react-native-activity-view",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "iOS share and action sheets for React Native",
   "scripts": {
     "lint": "node_modules/.bin/eslint .",
@@ -30,7 +30,9 @@
     "airdrop"
   ],
   "author": "Naoufal Kadhom <naoufalkadhom@gmail.com> (https://github.com/naoufal)",
-  "contributors": ["Chirag Jain <jain_chirag04@yahoo.com>"],
+  "contributors": [
+    "Chirag Jain <jain_chirag04@yahoo.com>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/naoufal/react-native-activity-view/issues"
