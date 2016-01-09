@@ -1,0 +1,3 @@
+rootProject.name = 'ActivityViewExample'
+
+include ':app'
