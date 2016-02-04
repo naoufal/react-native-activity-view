@@ -2,6 +2,7 @@
 #import "RCTLog.h"
 #import "RCTBridge.h"
 #import "RCTUIManager.h"
+#import "RCTImageLoader.h"
 
 @implementation ActivityView
 
@@ -49,34 +50,60 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(show:(NSDictionary *)args)
 {
-    NSMutableArray *shareObject = [NSMutableArray array];
-    NSString *text = args[@"text"];
-    NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
-    NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
     NSString *imageBase64 = args[@"imageBase64"];
-    NSData *imageData;
-    
-    // Try to fetch image
-    if (imageUrl) {
-        @try {
-            imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageUrl]];
-        } @catch (NSException *exception) {
-            RCTLogWarn(@"[ActivityView] Could not fetch image.");
-        }
+
+    __block UIImage *shareImage;
+
+    if (image) {
+      shareImage = [UIImage imageNamed:image];
     }
     
     if (imageBase64) {
-        @try {
-            imageData = [[NSData alloc] initWithBase64EncodedString:imageBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
-        } @catch (NSException *exception) {
-            RCTLogWarn(@"[ActivityView] Could not decode image");
-        }
+      @try {
+          NSData *decodedImage = [[NSData alloc] initWithBase64EncodedString:imageBase64
+                                                                     options:NSDataBase64DecodingIgnoreUnknownCharacters];
+          shareImage = [UIImage imageWithData:decodedImage];
+      } @catch (NSException *exception) {
+          RCTLogWarn(@"[ActivityView] Could not decode image");
+      }
     }
+
+    if (!imageUrl) {
+      return [self showWithOptions:args image:shareImage];
+    }
+
+    RCTImageLoader *loader = (RCTImageLoader*)[self.bridge moduleForClass:[RCTImageLoader class]];
+
+    __weak ActivityView *weakSelf = self;
+
+    [loader loadImageWithTag:imageUrl callback:^(NSError *error, id imageOrData) {
+        if (!error) {
+          if ([imageOrData isKindOfClass:[NSData class]]) {
+              shareImage = [UIImage imageWithData:imageOrData];
+          } else {
+              shareImage = imageOrData;
+          }
+        } else {
+          RCTLogWarn(@"[ActivityView] Could not fetch image.");
+        }
+
+        dispatch_async([weakSelf methodQueue], ^{
+            [weakSelf showWithOptions:args image:shareImage];
+        });
+    }];
+}
+    
+- (void) showWithOptions:(NSDictionary *)args image:(UIImage *)image
+{
+    NSMutableArray *shareObject = [NSMutableArray array];
+    NSString *text = args[@"text"];
+    NSURL *url = args[@"url"];
+    NSArray *activitiesToExclude = args[@"exclude"];
     
     // Return if no args were passed
-    if (!text && !url && !image && !imageData) {
+    if (!text && !url && !image) {
         RCTLogError(@"[ActivityView] You must specify a text, url, image, imageBase64 and/or imageUrl.");
         return;
     }
@@ -90,9 +117,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
     
     if (image) {
-        [shareObject addObject: [UIImage imageNamed: image]];
-    } else if (imageData) {
-        [shareObject addObject: [UIImage imageWithData: imageData]];
+        [shareObject addObject:image];
     }
     
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
