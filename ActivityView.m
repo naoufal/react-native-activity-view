@@ -47,6 +47,22 @@ RCT_EXPORT_MODULE()
     return excludedActivities;
 }
 
+- (NSArray*)applicationActivitiesForKeys:(NSArray*)passedKeys
+{
+    NSMutableArray *applicationActivities = [NSMutableArray new];
+    
+    [passedKeys enumerateObjectsUsingBlock:^(NSString *activityName, NSUInteger idx, BOOL *stop) {
+        id customActivity = [self.bridge moduleForName:activityName];
+        if (!customActivity) {
+            RCTLogWarn(@"[ActivityView] Unknown application activity to add: %@", activityName);
+            return;
+        }
+        [applicationActivities addObject:customActivity];
+    }];
+    
+    return applicationActivities;
+}
+
 RCT_EXPORT_METHOD(show:(NSDictionary *)args)
 {
     NSMutableArray *shareObject = [NSMutableArray array];
@@ -54,6 +70,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSURL *url = args[@"url"];
     NSString *imageUrl = args[@"imageUrl"];
     NSArray *activitiesToExclude = args[@"exclude"];
+    NSArray *customActivitiesToAdd = args[@"customActivities"];
     NSString *image = args[@"image"];
     NSString *imageBase64 = args[@"imageBase64"];
     NSData *imageData;
@@ -95,7 +112,9 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         [shareObject addObject: [UIImage imageWithData: imageData]];
     }
     
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
+    NSArray *applicationActivities = [self applicationActivitiesForKeys:customActivitiesToAdd];
+    
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:applicationActivities];
     
     activityView.excludedActivityTypes = activitiesToExclude
         ? [self excludedActivitiesForKeys:activitiesToExclude]
