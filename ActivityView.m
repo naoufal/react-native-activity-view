@@ -126,10 +126,12 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args callback:(RCTResponseSenderBlock)cal
     
     [activityView setCompletionWithItemsHandler:
         ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-            callback(@[RCTNullIfNil(activityType),
-                     @(completed),
-                     RCTNullIfNil(returnedItems),
-                     RCTNullIfNil(activityError.localizedDescription)]);
+            NSDictionary *payload = @{
+                @"activityType": RCTNullIfNil(activityType),
+                @"completed": @(completed),
+                @"returnedItems": RCTNullIfNil(returnedItems)
+            };
+            callback(@[RCTNullIfNil(activityError), payload]);
         }];
     
     [ctrl presentViewController:activityView animated:YES completion:nil];
