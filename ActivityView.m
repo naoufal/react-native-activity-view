@@ -131,7 +131,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args callback:(RCTResponseSenderBlock)cal
                 @"completed": @(completed),
                 @"returnedItems": RCTNullIfNil(returnedItems)
             };
-            callback(@[RCTNullIfNil(activityError), payload]);
+            callback(@[RCTJSErrorFromNSError(activityError), payload]);
         }];
     
     [ctrl presentViewController:activityView animated:YES completion:nil];
