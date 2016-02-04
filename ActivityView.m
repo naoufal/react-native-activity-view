@@ -2,6 +2,7 @@
 #import "RCTLog.h"
 #import "RCTBridge.h"
 #import "RCTUIManager.h"
+#import "RCTUtils.h"
 
 @implementation ActivityView
 
@@ -47,7 +48,7 @@ RCT_EXPORT_MODULE()
     return excludedActivities;
 }
 
-RCT_EXPORT_METHOD(show:(NSDictionary *)args)
+RCT_EXPORT_METHOD(show:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     NSMutableArray *shareObject = [NSMutableArray array];
     NSString *text = args[@"text"];
@@ -122,6 +123,17 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
+    
+    [activityView setCompletionWithItemsHandler:
+        ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            NSDictionary *payload = @{
+                @"activityType": RCTNullIfNil(activityType),
+                @"completed": @(completed),
+                @"returnedItems": RCTNullIfNil(returnedItems)
+            };
+            callback(@[RCTJSErrorFromNSError(activityError), payload]);
+        }];
+    
     [ctrl presentViewController:activityView animated:YES completion:nil];
 }
 
