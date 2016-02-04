@@ -16,7 +16,7 @@ var NativeActivityView = NativeModules.ActivityView;
  */
 
 var ActivityView = {
-  show: NativeActivityView.show
+  show: (opts, callback = () => {}) => NativeActivityView.show(opts, callback)
 };
 
 module.exports = ActivityView;
