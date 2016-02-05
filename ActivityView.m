@@ -56,6 +56,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
     NSString *imageBase64 = args[@"imageBase64"];
+    NSObject *file = args[@"file"];
     NSData *imageData;
     
     // Try to fetch image
@@ -76,8 +77,8 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
     
     // Return if no args were passed
-    if (!text && !url && !image && !imageData) {
-        RCTLogError(@"[ActivityView] You must specify a text, url, image, imageBase64 and/or imageUrl.");
+    if (!text && !url && !image && !imageData && !file) {
+        RCTLogError(@"[ActivityView] You must specify a text, url, image, imageBase64, imageUrl and/or file.");
         return;
     }
 
@@ -88,7 +89,11 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     if (url) {
         [shareObject addObject:url];
     }
-    
+
+    if (file) {
+        [shareObject addObject:file];
+    }
+
     if (image) {
         [shareObject addObject: [UIImage imageNamed: image]];
     } else if (imageData) {
@@ -122,7 +127,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-    [ctrl presentViewController:activityView animated:YES completion:nil];
+    [ctrl.presentedViewController presentViewController:activityView animated:YES completion:nil];
 }
 
 @end
