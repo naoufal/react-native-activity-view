@@ -56,6 +56,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     NSArray *activitiesToExclude = args[@"exclude"];
     NSString *image = args[@"image"];
     NSString *imageBase64 = args[@"imageBase64"];
+    NSObject *file = args[@"file"];
     NSData *imageData;
     
     // Try to fetch image
@@ -88,7 +89,11 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     if (url) {
         [shareObject addObject:url];
     }
-    
+
+    if (file) {
+        [shareObject addObject:file];
+    }
+
     if (image) {
         [shareObject addObject: [UIImage imageNamed: image]];
     } else if (imageData) {
@@ -122,7 +127,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-    [ctrl presentViewController:activityView animated:YES completion:nil];
+    [ctrl.presentedViewController presentViewController:activityView animated:YES completion:nil];
 }
 
 @end
