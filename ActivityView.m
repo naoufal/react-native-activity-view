@@ -33,9 +33,9 @@ RCT_EXPORT_MODULE()
        @"postToTencentWeibo": UIActivityTypePostToTencentWeibo,
        @"airDrop": UIActivityTypeAirDrop
     };
-    
+
     NSMutableArray *excludedActivities = [NSMutableArray new];
-    
+
     [passedKeys enumerateObjectsUsingBlock:^(NSString *activityName, NSUInteger idx, BOOL *stop) {
         NSString *activity = [activities objectForKey:activityName];
         if (!activity) {
@@ -44,7 +44,7 @@ RCT_EXPORT_MODULE()
         }
         [excludedActivities addObject:activity];
     }];
-    
+
     return excludedActivities;
 }
 
@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     if (image) {
       shareImage = [UIImage imageNamed:image];
     }
-    
+
     if (imageBase64) {
       @try {
           NSData *decodedImage = [[NSData alloc] initWithBase64EncodedString:imageBase64
@@ -94,16 +94,17 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         });
     }];
 }
-    
+
 - (void) showWithOptions:(NSDictionary *)args image:(UIImage *)image
 {
     NSMutableArray *shareObject = [NSMutableArray array];
     NSString *text = args[@"text"];
     NSURL *url = args[@"url"];
+    NSObject *file = args[@"file"];
     NSArray *activitiesToExclude = args[@"exclude"];
-    
+
     // Return if no args were passed
-    if (!text && !url && !image) {
+    if (!text && !url && !image && !file) {
         RCTLogError(@"[ActivityView] You must specify a text, url, image, imageBase64 and/or imageUrl.");
         return;
     }
@@ -111,21 +112,26 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     if (text) {
         [shareObject addObject:text];
     }
-    
+
     if (url) {
         [shareObject addObject:url];
     }
-    
+
     if (image) {
         [shareObject addObject:image];
     }
-    
+
+    if (file) {
+        [shareObject addObject:file];
+    }
+
+
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
-    
+
     activityView.excludedActivityTypes = activitiesToExclude
         ? [self excludedActivitiesForKeys:activitiesToExclude]
         : nil;
-    
+
     // Display the Activity View
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
@@ -147,7 +153,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-    [ctrl presentViewController:activityView animated:YES completion:nil];
+    [ctrl.presentedViewController presentViewController:activityView animated:YES completion:nil];
 }
 
 @end
