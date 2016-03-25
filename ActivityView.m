@@ -122,7 +122,8 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
 
     if (file) {
-        [shareObject addObject:file];
+        NSURL *localFile = [NSURL fileURLWithPath:file];
+        [shareObject addObject:localFile];
     }
 
 
@@ -153,7 +154,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
             activityView.popoverPresentationController.permittedArrowDirections = 0;
         }
     }
-    [ctrl.presentedViewController presentViewController:activityView animated:YES completion:nil];
+    [ctrl presentViewController:activityView animated:YES completion:nil];
 }
 
 @end
