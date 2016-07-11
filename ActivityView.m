@@ -4,6 +4,28 @@
 #import "RCTUIManager.h"
 #import "RCTUtils.h"
 
+@interface SubjectProvider : UIActivityItemProvider {
+    NSString *_subject;
+}
+@end
+
+@implementation SubjectProvider
+
+-(id)initWithPlaceholderItem:(id)placeholderItem subject:(NSString *)subject {
+    _subject = subject;
+    return [super initWithPlaceholderItem:placeholderItem];
+}
+
+-(id)item {
+    return @"";
+}
+
+-(NSString *)activityViewController:(UIActivityViewController *)activityViewController subjectForActivityType:(NSString *)activityType {
+    return _subject;
+}
+
+@end
+
 @implementation ActivityView
 
 @synthesize bridge = _bridge;
@@ -59,6 +81,7 @@ RCT_EXPORT_MODULE()
     NSString *imageUrl = args[@"imageUrl"];
     NSString *image = args[@"image"];
     NSData * imageData;
+    NSString *subject = args[@"subject"];
     
     // Try to fetch image
     if (imageUrl) {
@@ -89,6 +112,11 @@ RCT_EXPORT_MODULE()
         [shareObject addObject: [UIImage imageWithData: imageData]];
     }
     
+    if (subject) {
+        SubjectProvider *provider = [[SubjectProvider alloc]initWithPlaceholderItem:@"" subject:subject];
+        [shareObject addObject:provider];
+    }
+
     UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:shareObject applicationActivities:nil];
 
     activityView.excludedActivityTypes = [self excludedActivitiesForKeys:args[@"exclude"]];
