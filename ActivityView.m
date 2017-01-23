@@ -3,6 +3,7 @@
 #import "RCTBridge.h"
 #import "RCTUIManager.h"
 #import "RCTImageLoader.h"
+#import "ActivityMailItemSource.h"
 
 @implementation ActivityView
 
@@ -110,7 +111,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
     }
 
     if (text) {
-        [shareObject addObject:text];
+        [shareObject addObject:[ActivityMailItemSource itemSourceWithText:text]];
     }
 
     if (url) {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13BE3DEE1AC21097009241FE /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BE3DED1AC21097009241FE /* ActivityView.m */; };
+		DF3E79531C9BFBEA0054A8C8 /* ActivityMailItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E79521C9BFBEA0054A8C8 /* ActivityMailItemSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,8 @@
 		134814201AA4EA6300B7C361 /* libActivityView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libActivityView.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		13BE3DEC1AC21097009241FE /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
 		13BE3DED1AC21097009241FE /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
+		DF3E79511C9BFBEA0054A8C8 /* ActivityMailItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMailItemSource.h; sourceTree = "<group>"; };
+		DF3E79521C9BFBEA0054A8C8 /* ActivityMailItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMailItemSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,8 @@
 			children = (
 				13BE3DEC1AC21097009241FE /* ActivityView.h */,
 				13BE3DED1AC21097009241FE /* ActivityView.m */,
+				DF3E79511C9BFBEA0054A8C8 /* ActivityMailItemSource.h */,
+				DF3E79521C9BFBEA0054A8C8 /* ActivityMailItemSource.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF3E79531C9BFBEA0054A8C8 /* ActivityMailItemSource.m in Sources */,
 				13BE3DEE1AC21097009241FE /* ActivityView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
