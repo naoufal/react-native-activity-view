@@ -78,7 +78,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
 
     __weak ActivityView *weakSelf = self;
 
-    [loader loadImageWithTag:imageUrl callback:^(NSError *error, id imageOrData) {
+    [loader loadImageWithURLRequest:imageUrl callback:^(NSError *error, id imageOrData) {
         if (!error) {
           if ([imageOrData isKindOfClass:[NSData class]]) {
               shareImage = [UIImage imageWithData:imageOrData];
