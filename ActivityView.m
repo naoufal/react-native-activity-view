@@ -77,9 +77,8 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
 
     __weak ActivityView *weakSelf = self;
 
-    [self.bridge.imageLoader
-     loadImageWithURLRequest: [RCTConvert NSURLRequest: imageUrl]
-     callback:^(NSError *error, UIImage *image) {
+    [self.bridge.imageLoader loadImageWithURLRequest: [RCTConvert NSURLRequest: imageUrl]
+        callback:^(NSError *error, UIImage *image) {
         if (!error) {
             dispatch_async([weakSelf methodQueue], ^{
                 [weakSelf showWithOptions:args image:image];
