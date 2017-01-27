@@ -74,24 +74,18 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
       return [self showWithOptions:args image:shareImage];
     }
 
-    RCTImageLoader *loader = (RCTImageLoader*)[self.bridge moduleForClass:[RCTImageLoader class]];
 
     __weak ActivityView *weakSelf = self;
 
-    [loader loadImageWithURLRequest:imageUrl callback:^(NSError *error, id imageOrData) {
+    [self.bridge.imageLoader loadImageWithURLRequest: [RCTConvert NSURLRequest: imageUrl]
+        callback:^(NSError *error, UIImage *image) {
         if (!error) {
-          if ([imageOrData isKindOfClass:[NSData class]]) {
-              shareImage = [UIImage imageWithData:imageOrData];
-          } else {
-              shareImage = imageOrData;
-          }
+            dispatch_async([weakSelf methodQueue], ^{
+                [weakSelf showWithOptions:args image:image];
+            });
         } else {
           RCTLogWarn(@"[ActivityView] Could not fetch image.");
         }
-
-        dispatch_async([weakSelf methodQueue], ^{
-            [weakSelf showWithOptions:args image:shareImage];
-        });
     }];
 }
 
