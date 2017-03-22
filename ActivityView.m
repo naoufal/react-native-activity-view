@@ -1,8 +1,8 @@
 #import "ActivityView.h"
-#import "RCTLog.h"
-#import "RCTBridge.h"
-#import "RCTUIManager.h"
-#import "RCTImageLoader.h"
+#import <React/RCTLog.h>
+#import <React/RCTBridge.h>
+#import <React/RCTUIManager.h>
+#import <React/RCTImageLoader.h>
 
 @implementation ActivityView
 
