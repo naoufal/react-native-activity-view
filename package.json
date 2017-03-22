@@ -1,6 +1,6 @@
 {
   "name": "react-native-activity-view",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "iOS share and action sheets for React Native",
   "scripts": {
     "lint": "node_modules/.bin/eslint .",
