@@ -70,7 +70,7 @@ var YourComponent = React.createClass({
         ...
         <TouchableHighlight
           onPress={this._pressHandler}
-        />
+        >
           <Text ref="share">
             Share with Activity View
           </Text>
