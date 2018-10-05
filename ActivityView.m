@@ -127,7 +127,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)args)
         : nil;
 
     // Display the Activity View
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UIViewController *ctrl = RCTPresentedViewController();
 
     /*
      * The `anchor` option takes a view to set as the anchor for the share
